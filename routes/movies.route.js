@@ -1,31 +1,25 @@
 import express from "express";
+import {
+  movieCreate,
+  movieDelete,
+  movieEdit,
+  movieIndex,
+} from "../controllers/movies.controllers.js";
 
 const route = express.Router();
 
 // CRUD Opersations
 
 //Read
-route.get("/", (req, res) => {
-  //Read
-  res.send("read All movies");
-});
+route.get("/", movieIndex);
 
 //Create
-route.post("/", (req, res) => {
-  //Create
-  res.send("Create all movies");
-});
+route.post("/", movieCreate);
 
 //update
-route.put("/:id", (req, res) => {
-  //update
-  res.send("update movies");
-});
+route.put("/:id", movieEdit);
 
 //delete
-route.delete("/:id", (req, res) => {
-  //delete
-  res.send("delete movie");
-});
+route.delete("/:id", movieDelete);
 
 export default route;
