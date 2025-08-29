@@ -1,19 +1,68 @@
-export const movieIndex = (req, res) => {
+import Movie from "../models/movie.model.js";
+
+export const movieIndex = async (req, res) => {
   //Read
-  res.send("read All movies");
+
+  try {
+    const movie = await Movie.find();
+    res.json(movie);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-export const movieCreate = (req, res) => {
+export const movieCreate = async (req, res) => {
   //Create
-  res.send("Create all movies");
+  //res.send("Create all movies");
+
+  const newMovie = new Movie({
+    title: req.body.title,
+    description: req.body.description,
+  });
+
+  try {
+    const movie = await newMovie.save();
+    return res.status(201).json(movie);
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
 };
 
-export const movieEdit = (req, res) => {
+export const MovieDetails = async (req, res) => {
+  try {
+    const movie = await Movie.findById(req.params.id);
+    if (movie == null) {
+      return res.status(404).json({ message: "Cannot Fine Movie" });
+    } else {
+      return res.json(movie);
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const movieEdit = async (req, res) => {
   //update
-  res.send("update movies");
+  try {
+    const updateMovie = await Movie.findOneAndUpdate(
+      { _id: req.params.id },
+      { title: req.body.title, description: req.body.description },
+      { new: true }
+    );
+
+    res.status(200).json(updateMovie);
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
 };
 
-export const movieDelete = (req, res) => {
+export const movieDelete = async (req, res) => {
   //delete
-  res.send("delete movie");
+  const MovieId = req.params.id;
+  try {
+    await Movie.deleteOne({ _id: MovieId });
+    res.json({ message: "Movie deleted.." });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 };

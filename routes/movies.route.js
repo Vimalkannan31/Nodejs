@@ -2,6 +2,7 @@ import express from "express";
 import {
   movieCreate,
   movieDelete,
+  MovieDetails,
   movieEdit,
   movieIndex,
 } from "../controllers/movies.controllers.js";
@@ -12,6 +13,9 @@ const route = express.Router();
 
 //Read
 route.get("/", movieIndex);
+
+//singleGet
+route.get("/:id", MovieDetails);
 
 //Create
 route.post("/", movieCreate);

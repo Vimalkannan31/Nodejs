@@ -8,6 +8,9 @@ const PORT = 5000;
 //Connect db
 ConnectDB();
 
+//config
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.json({ msg: "Hello everyone" });
 });
